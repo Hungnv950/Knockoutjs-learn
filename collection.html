@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List</title>
+    <script type="text/javascript" src="knockout-min.js"></script>
+</head>
+<body>
+<div>
+    <ul data-bind="foreach: people">
+        <li data-bind="text: name"></li>
+        <input type="text" name="" data-bind="value: childrenToAdd">
+        <a href="#" data-bind="click: addChildren">Add</a>
+        <ul data-bind="foreach: children">
+            <li data-bind="text: $data"></li>
+        </ul>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    var Person = function(name, children){
+        this.name = name;
+        this.childrenToAdd = ko.observable("");
+        this. children = ko.observableArray(children);
+        this.addChildren = function(){
+            if(this.childrenToAdd() != ""){
+                this.children.push(this.childrenToAdd());
+                this.childrenToAdd("");
+            }
+        }.bind(this);
+    }
+
+var viewModel = {
+    people: [
+        new Person("Annabelle", ["Arnie", "Anders", "Apple"]),
+        new Person("Bertie", ["Boutros-Boutros", "Brianna", "Barbie", "Bee-bop"]),
+        new Person("Charles", ["Cayenne", "Cleopatra"])
+        ],
+    showRenderTimes: ko.observable(false)
+};
+
+    ko.applyBindings(viewModel);
+</script>
+</body>
+</html>

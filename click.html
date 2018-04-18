@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Click</title>
+    <script type="text/javascript" src="knockout-min.js"></script>
+</head>
+<body>
+<p>Count: <span data-bind="text: numberClick"></span></p>
+<button data-bind="click: buttonClick, disable: clickTooManyTimes">Click</button>
+<button data-bind="click: resetClick, visible: clickTooManyTimes">reset</button>
+</body>
+<script type="text/javascript">
+    var ClickCountModel = function(){
+        this.numberClick = ko.observable(0);
+        this.buttonClick = function(){
+            this.numberClick(this.numberClick() + 1);
+        };
+
+        this.clickTooManyTimes = ko.pureComputed(function(){
+            return this.numberClick() >= 3;
+        }, this);
+
+        this.resetClick = function(){
+            this.numberClick(0);
+        };
+    };
+
+    ko.applyBindings(new ClickCountModel());
+</script>
+</html>

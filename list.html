@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List</title>
+    <script type="text/javascript" src="knockout-min.js"></script>
+</head>
+<body>
+<form data-bind="submit: addItem">
+    <input type="text" name="" data-bind="value: itemAdd, valueUpdate: "afterkeydown"'">
+    <button type="submit">add</button>
+    <br>
+    <p data-bind="foreach: items">
+        <p data-bind="text: items"></p>
+    </p>
+</form>
+
+<script type="text/javascript">
+    var ListModel = function(items) {
+        this.items = ko.observableArray(items);
+        this.itemAdd = ko.observable("");
+        this.addItem = function(){
+            if(this.itemAdd() != ""){
+                this.items.push(this.itemAdd());
+                this.itemAdd("");
+            }
+        }.bind(this);
+    };
+
+    ko.applyBindings(new ListModel());
+</script>
+</body>
+</html>
